@@ -40,7 +40,7 @@ public class ProcessingTutorial6 extends Application {
         Group dots = new Group();
         root.getChildren().add(dots);
 
-        Integer nbOfCells = 200; // the number of cells we want to prompt
+        Integer nbOfCells = 20; // the number of cells we want to prompt
         Float maxHeight = (float) (height / nbOfCells); // height of each cell
         Float maxWidth = (float) (width / nbOfCells); // width of each cell
         Color startColor = Color.BLACK; // start color factorized
@@ -52,7 +52,7 @@ public class ProcessingTutorial6 extends Application {
                 Rectangle dot;
                 dot = new Rectangle(maxWidth * x, maxHeight * y, maxWidth, maxHeight);
                 dot.setFill(color);
-                color = (iteCount == 10/* try to change it to 9 with initials settings ;) */) ? (startColor) : (color.brighter());
+                color = (iteCount == 8/* try to change it to 9 with initials settings ;) */) ? (startColor) : (color.brighter());
                 iteCount = (color.equals(startColor)) ? (0) : (iteCount + 1);
                 dots.getChildren().add(dot);
             }
