@@ -1,25 +1,15 @@
 package sample;
 
-import com.sun.javafx.geom.Vec2d;
-import javafx.animation.AnimationTimer;
-import javafx.animation.FadeTransition;
-import javafx.animation.Transition;
 import javafx.application.Application;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.util.Random;
+import tools.Particle;
+import tools.ParticleSystem;
 
 /**
  * This example shows how you can draw
@@ -33,9 +23,6 @@ public class ParticlesFun extends Application {
     public void start(Stage primaryStage) throws Exception{
         Group root = new Group();
 
-        Image image = new Image("resources/sprite.png");
-        ImageView imageView = new ImageView(image);
-
         Scene scene = new Scene(root, 1024, 728, Color.BLACK);
         primaryStage.setScene(scene);
         // close windows on escape
@@ -44,28 +31,18 @@ public class ParticlesFun extends Application {
                 primaryStage.close();
         });
 
-        root.getChildren().addAll(imageView);
+        ParticleSystem particleSystem = new ParticleSystem();
+
+        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> particleSystem.addParticle(new Particle(event.getX(), event.getY(), root, particleSystem)));
+        /*
+        // Used for charge tests.
+        Random random = new Random(System.currentTimeMillis());
+        for (int i = 0; i < 7500; i++) {
+            particleSystem.addParticle(new Particle(random.nextInt((int)(scene.getWidth())), random.nextInt((int)(scene.getHeight())), root, particleSystem));
+        }*/
+
         primaryStage.show();
-
-        Random r = new Random(System.nanoTime());
-        Float angle = r.nextFloat();
-        Vec2d velocity = new Vec2d(Math.cos(angle), Math.sin(angle));
-        Vec2d gravity = new Vec2d(0., 0.1);
-
-        FadeTransition fadeTransition = new FadeTransition(Duration.millis(2000), imageView);
-        fadeTransition.setFromValue(1.0);
-        fadeTransition.setToValue(0.);
-        fadeTransition.play();
-
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                velocity.set(velocity.x + gravity.x, velocity.y + gravity.y);
-                imageView.setX(imageView.getX() + (velocity.x));
-                imageView.setY(imageView.getY() + (velocity.y));
-            }
-        };
-        timer.start();
+        particleSystem.start();
     }
 
     /**
