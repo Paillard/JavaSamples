@@ -30,10 +30,10 @@ public class ProcessingTutorial2 extends Application {
         Group root = new Group();
 
         // width of the frame
-        Integer width = 400;
+        Integer width = 600;
         assert width > 0 : "minimal width not provided, have \"" + width + "\"";
         // height of the frame
-        Integer height = 400;
+        Integer height = 600;
         assert height > 0: "minimal height not provided, have \"" + height + "\"";
 
         Scene scene = new Scene(root, width, height, Color.GRAY);

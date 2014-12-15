@@ -25,7 +25,7 @@ public class ProcessingTutorial7 extends Application {
 
         Image image = new Image("resources/catIsTooAfraid.jpg");
         ImageView imageView = new ImageView(image);
-        imageView.setBlendMode(BlendMode.EXCLUSION);
+        //imageView.setBlendMode(BlendMode.EXCLUSION);
 
         Image image2 = new Image("resources/googleBoobs.png", image.getWidth(), image.getHeight(), false, true, false);
         ImageView imageView2 = new ImageView(image2);

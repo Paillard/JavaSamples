@@ -1,19 +1,14 @@
 package sample;
 
-import javafx.animation.FillTransition;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Box;
+import javafx.scene.shape.QuadCurve;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.util.Random;
 
 /**
  * This example shows how you can animate
@@ -26,7 +21,7 @@ import java.util.Random;
  *
  * @author Treiber Julien
  */
-public class InfiniteAnimatedPixelCarpet extends Application {
+public class ShapeTests extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -47,29 +42,12 @@ public class InfiniteAnimatedPixelCarpet extends Application {
                 primaryStage.close();
         });
 
-        Group dots = new Group();
-        root.getChildren().add(dots);
+        QuadCurve quadCurve = new QuadCurve(150.0, 150.0, 150.0, 250.0, 450.0, 475.0);
 
-        Random random = new Random(System.nanoTime());
-        Integer nbOfCells = 100;
-        Float maxHeight = (float) (height / nbOfCells);
-        Float maxWidth = (float) (width / nbOfCells);
-        for (int y = 0; y < (nbOfCells); y++) {
-            for (int x = 0; x < (nbOfCells); x++) {
-                Rectangle dot;
-                dot = new Rectangle(maxWidth * x, maxHeight * y, maxWidth, maxHeight);
-                FillTransition ft = new FillTransition(Duration.millis(random.nextInt(1000) + 500), dot, Color.RED, Color.GREEN);
-                ft.setOnFinished((ActionEvent e) -> {
-                    ft.setCycleCount(random.nextInt(10) + 1);
-                    ft.play();
-                });
-                ft.setCycleCount(random.nextInt(10) + 1);
-                ft.setAutoReverse(true);
-                ft.play();
-                dots.getChildren().add(dot);
-            }
-        }
-        root.setEffect(new BoxBlur());
+        Box b = new Box(15.0, 54.0, 30);
+
+        root.getChildren().add(quadCurve);
+        root.getChildren().add(b);
 
         primaryStage.setResizable(false);
         primaryStage.show();
