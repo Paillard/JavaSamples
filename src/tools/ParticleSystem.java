@@ -12,28 +12,41 @@ import java.util.ArrayList;
 public class ParticleSystem extends AnimationTimer {
 
     private static final Vec2d gravity = new Vec2d(0., 0.1);
-    private ArrayList<Particle> particles = new ArrayList<>();
+    private static ArrayList<Particle> particles = new ArrayList<>();
+    private static ParticleSystem particleSystem;
+    private static Vec2d mouseCoordinates = new Vec2d(0.,0.);
 
-    public ParticleSystem() {
+    public static Vec2d getMouseCoordinates() {
+        return mouseCoordinates;
+    }
+
+    public static void setMouseCoordinates(Vec2d mouseCoordinates) {
+        ParticleSystem.mouseCoordinates = mouseCoordinates;
+    }
+
+    private ParticleSystem() {
+        particleSystem = this;
     }
 
     @Override
     public void handle(long now) {
-        //System.out.println(particles.size());
-        for (Particle p: particles) {
-            p.update();
-        }
+        for (Particle p: particles) p.update(now);
     }
 
-    public void addParticle(@NotNull Particle p) {
-        this.particles.add(p);
+    static public void addParticle(@NotNull Particle p) {
+        particles.add(p);
     }
 
-    public static Vec2d getGravity() {
+    static public Vec2d getGravity() {
         return gravity;
     }
 
-    public void remove(@NotNull Particle particle) {
-        this.particles.remove(particle);
+    static public void remove(@NotNull Particle particle) {
+        particles.remove(particle);
+    }
+
+    static public ParticleSystem getInstance() {
+        if (particleSystem == null) new ParticleSystem();
+        return particleSystem;
     }
 }

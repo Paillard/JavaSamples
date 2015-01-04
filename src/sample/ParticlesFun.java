@@ -1,5 +1,6 @@
 package sample;
 
+import com.sun.javafx.geom.Vec2d;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -31,18 +32,10 @@ public class ParticlesFun extends Application {
                 primaryStage.close();
         });
 
-        ParticleSystem particleSystem = new ParticleSystem();
-
-        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> particleSystem.addParticle(new Particle(event.getX(), event.getY(), root, particleSystem)));
-        /*
-        // Used for charge tests.
-        Random random = new Random(System.currentTimeMillis());
-        for (int i = 0; i < 7500; i++) {
-            particleSystem.addParticle(new Particle(random.nextInt((int)(scene.getWidth())), random.nextInt((int)(scene.getHeight())), root, particleSystem));
-        }*/
+        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> new Particle(new Vec2d(event.getX(), event.getY()), root));
 
         primaryStage.show();
-        particleSystem.start();
+        ParticleSystem.getInstance().start();
     }
 
     /**
