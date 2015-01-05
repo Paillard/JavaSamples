@@ -9,15 +9,16 @@ import javafx.scene.image.ImageView;
 /**
  * Created by paill on 04/01/15.
  */
-public class Body {
+public abstract class Body {
     protected long birthDay;   // the date the body was created.
     protected double lifetime;          // the maximal time this body can live. in s
     protected double mass;              // the mass of the body.
     protected Vec2d inertia;            // the force that apply to the body.
+    protected Image img;
     protected ImageView sprite;         // the image use to represent the body in a Scene.
 
     public Body(double mass,
-                @NotNull Vec2d spaceCoordinates,
+                @NotNull Vec2d coordinates,
                 @NotNull Vec2d inertia,
                 double lifetime,
                 double ratio,
@@ -30,20 +31,21 @@ public class Body {
 
         Image image = new Image(pathToSprite, false);
         // scale the sprite using the ratio
-        this.sprite = new ImageView(new Image(pathToSprite, image.getWidth() * ratio, image.getHeight() * ratio, true, true, false));
-        this.sprite.setX(spaceCoordinates.x - (image.getWidth() * ratio) / 2);
-        this.sprite.setY(spaceCoordinates.y - (image.getHeight() * ratio)/2);
+        this.img = new Image(pathToSprite, image.getWidth() * ratio, image.getHeight() * ratio, true, true, false);
+        this.sprite = new ImageView(this.img);
+        this.setX(coordinates.x - (image.getWidth() * ratio) / 2);
+        this.setY(coordinates.y - (image.getHeight() * ratio) / 2);
         root.getChildren().add(this.sprite);
     }
 
     public double getWidth() {
-        assert this.sprite != null : "Using sprite here. Should be initialized";
-        return this.sprite.getImage().getWidth();
+        assert this.img != null : "Using sprite here. Should be initialized";
+        return this.img.getWidth();
     }
 
     public double getHeight() {
-        assert this.sprite != null : "Using sprite here. Should be initialized";
-        return this.sprite.getImage().getHeight();
+        assert this.img != null : "Using sprite here. Should be initialized";
+        return this.img.getHeight();
     }
 
     public void setMass(double mass) {
@@ -104,4 +106,21 @@ public class Body {
         assert this.inertia != null : "inertia should have been set for use";
         return this.inertia;
     }
+
+    public double getCenterX() {
+        return this.getX() + this.getWidth() / 2;
+    }
+
+    public double getCenterY() {
+        return this.getY() + this.getHeight() / 2;
+    }
+
+    public double getDistanceFrom(Body body) {
+        return (Math.sqrt(Math.pow(body.getCenterX() - this.getCenterX(), 2) + Math.pow(body.getCenterY() - this.getCenterY(), 2)));
+    }
+
+    /**
+     * The way you move your body!
+     */
+    public abstract void move();
 }

@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import tools.Particle;
 import tools.ParticleSystem;
 
+import java.util.Random;
+
 /**
  * This example shows how you can draw
  * an Image into the scene.
@@ -24,7 +26,8 @@ public class ParticlesFun extends Application {
     public void start(Stage primaryStage) throws Exception{
         Group root = new Group();
 
-        Scene scene = new Scene(root, 1024, 728, Color.BLACK);
+        double maxX = 1024, maxY = 728;
+        Scene scene = new Scene(root, maxX, maxY, Color.BLACK);
         primaryStage.setScene(scene);
         // close windows on escape
         scene.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
@@ -32,10 +35,17 @@ public class ParticlesFun extends Application {
                 primaryStage.close();
         });
 
-        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> new Particle(0.1, new Vec2d(event.getX(), event.getY()), new Vec2d(0., 0.1), 0., 1., Particle.IMG_PATH_DEFAULT, root));
+        Random random = new Random(System.nanoTime());
+        scene.addEventFilter(MouseEvent.MOUSE_CLICKED,
+                event -> {
+                    Vec2d inertia = new Vec2d(((random.nextInt(10) < 5) ? (-random.nextFloat()-0.1) : (random.nextFloat()+0.1)), ((random.nextInt(10) < 5) ? (-random.nextFloat()-0.1) : (random.nextFloat()+0.1)));
+                    new Particle(0.1, new Vec2d(event.getX(), event.getY()),
+                            inertia,
+                            0., 1., Particle.IMG_PATH_DEFAULT, root);
+                });
 
         primaryStage.show();
-        ParticleSystem.getInstance().start();
+        ParticleSystem.getInstance(maxX, maxY).start();
     }
 
     /**
