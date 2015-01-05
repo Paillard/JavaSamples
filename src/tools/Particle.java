@@ -4,6 +4,8 @@ import com.sun.istack.internal.NotNull;
 import com.sun.javafx.geom.Vec2d;
 import javafx.animation.FadeTransition;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 import java.time.LocalDateTime;
@@ -15,8 +17,8 @@ public class Particle extends Body {
 
     public static String IMG_PATH_DEFAULT = "resources/sprite.png";
 
-    public Particle(double mass, @NotNull Vec2d spaceCoordinates, @NotNull Vec2d inertia, double lifetime, double ratio, @NotNull String pathToSprite, @NotNull Group root) {
-        super(mass, spaceCoordinates, inertia, lifetime, ratio, pathToSprite, root);
+    public Particle(double mass, @NotNull Vec2d coordinates, @NotNull Vec2d inertia, double lifetime, double ratio, @NotNull String pathToSprite, @NotNull Group root) {
+        super(mass, coordinates, inertia, lifetime, ratio, pathToSprite, root);
         // monitoring the particule by adding it to the current particule system
         ParticleSystem.addParticle(this);
         // if the particule die, it will fade away?
@@ -40,6 +42,7 @@ public class Particle extends Body {
         this(mass, new Vec2d(0., 0.), new Vec2d(0., 0.), lifetime, 1.0, Particle.IMG_PATH_DEFAULT, root);
     }
 
+    @Override
     public void move() {
         this.setX(this.getX() + this.inertia.x);
         this.setY(this.getY() + this.inertia.y);
