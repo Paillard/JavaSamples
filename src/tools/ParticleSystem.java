@@ -30,7 +30,7 @@ public class ParticleSystem extends AnimationTimer {
 
     @Override
     public void handle(long now) {
-        for (Particle p: particles) p.update(now);
+        for (Particle p: particles) p.move();
     }
 
     static public void addParticle(@NotNull Particle p) {

@@ -32,7 +32,7 @@ public class ParticlesFun extends Application {
                 primaryStage.close();
         });
 
-        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> new Particle(new Vec2d(event.getX(), event.getY()), root));
+        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> new Particle(0.1, new Vec2d(event.getX(), event.getY()), new Vec2d(0., 0.1), 0., 1., Particle.IMG_PATH_DEFAULT, root));
 
         primaryStage.show();
         ParticleSystem.getInstance().start();
