@@ -4,6 +4,8 @@ import com.sun.istack.internal.NotNull;
 import com.sun.javafx.geom.Vec2d;
 import javafx.animation.FadeTransition;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 /**
