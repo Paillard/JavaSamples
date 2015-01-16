@@ -14,6 +14,7 @@ public abstract class Body {
     protected double lifetime;          // the maximal time this body can live. in s
     protected double mass;              // the mass of the body.
     protected Vec2d inertia;            // the force that apply to the body.
+    protected Vec2d externalForces;     // the force that apply to the body.
     protected Image img;
     protected ImageView sprite;         // the image use to represent the body in a Scene.
 
@@ -28,6 +29,7 @@ public abstract class Body {
         this.inertia = inertia;
         this.lifetime = lifetime;
         this.birthDay = System.nanoTime();
+        this.externalForces = new Vec2d(0., 0.);
 
         Image image = new Image(pathToSprite, false);
         // scale the sprite using the ratio
@@ -118,6 +120,22 @@ public abstract class Body {
     public double getDistanceFrom(Body body) {
         return (Math.sqrt(Math.pow(body.getCenterX() - this.getCenterX(), 2) + Math.pow(body.getCenterY() - this.getCenterY(), 2)));
     }
+
+    public Vec2d getExternalForces() {
+        return this.externalForces;
+    }
+
+    public void addExternalForce(Vec2d force) {
+        this.externalForces.x += force.x;
+        this.externalForces.y += force.y;
+    }
+
+    /**
+     *
+     * @param b
+     * @return
+     */
+    public abstract boolean hasCollision(Body b);
 
     /**
      * The way you move your body!
