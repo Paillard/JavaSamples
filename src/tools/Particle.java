@@ -74,7 +74,7 @@ public class Particle extends Body {
 
 
            // tests sur un mouvement helicoidoale autour de la sourie des particules
-/*           if (ParticleSystem.getMouseCoordinates() != null) {
+          /* if (ParticleSystem.getMouseCoordinates() != null) {
                 double xOffset = Math.abs((ParticleSystem.getMouseCoordinates().x - this.getCenterX()));
                 double yOffset = Math.abs((ParticleSystem.getMouseCoordinates().y - this.getCenterY()));
 
@@ -83,7 +83,7 @@ public class Particle extends Body {
                     //System.out.println((this.getCenterX() - ParticleSystem.getMouseCoordinates().x) / ParticleSystem.getMouseCoordinates().distance(this.getCenterX(), this.getCenterY()));
                     double dist = Math.abs(ParticleSystem.getMouseCoordinates().distance(this.getCenterX(), this.getCenterY()));
                     double theta = Math.asin((this.getCenterX() - ParticleSystem.getMouseCoordinates().x) / dist);
-                    // double theta += ((now - oldNow) / 10E8) % (2 * Math.PI);
+                    //double theta += ((now - oldNow) / 10E8) % (2 * Math.PI);
                     this.setX(ParticleSystem.getMouseCoordinates().x + (Math.sin(theta) * dist));
                     this.setY(ParticleSystem.getMouseCoordinates().y + (Math.cos(theta) * dist));
                 } else {
@@ -97,18 +97,18 @@ public class Particle extends Body {
                         this.inertia.set(this.getCenterX() + (xOffset * this.inertia.x), this.getCenterY() + (yOffset * this.inertia.y));
                     }
                 }
-            }*//*
-            Particle closest = this.getClosest(ps.findCollisions(this));
+            }*/
+           /* Particle closest = this.getClosest(ps.findCollisions(this));
 
             if (closest != null) {
                 Vec2d cInertia = closest.getInertia();
                 Vec2d oldInertia = new Vec2d(this.inertia);
                 Vec2d oldCInertia = new Vec2d(cInertia);
 
-                this.inertia.set((oldInertia.x + oldCInertia.x), (oldInertia.y + oldCInertia.y));
-                closest.setInertia(oldCInertia.x - oldInertia.x, oldCInertia.y - oldInertia.y);
+                this.inertia.set((oldCInertia.x), ( oldCInertia.y));
+                closest.setInertia(oldInertia.x, oldInertia.y);*/
 
-
+/*
                 double norm = Math.sqrt(Math.pow(oldInertia.x, 2) + Math.pow(oldInertia.y, 2));
                 double newNorm = Math.sqrt(Math.pow(this.inertia.x, 2) + Math.pow(this.inertia.y, 2));
                 if (inertia.y != 0) {
@@ -127,8 +127,8 @@ public class Particle extends Body {
                     double n = m * cInertia.x / cInertia.y;
 
                     cInertia.set(n, m);
-                }
-            }*/
+                }*/
+           // }
         }
     }
 
@@ -141,8 +141,8 @@ public class Particle extends Body {
             return (distance <= (pWidth / 2 + eWidth / 2));
     }
 
-    /* elliptic movement approach
-    public void update(long now) {
+    // elliptic movement approach
+   /* public void update(long now) {
         if (ParticleSystem.getMouseCoordinates() != null) {
             double xOffset = Math.abs((ParticleSystem.getMouseCoordinates().x - this.getCenterX()));
             double yOffset = Math.abs((ParticleSystem.getMouseCoordinates().y - this.getCenterY()));

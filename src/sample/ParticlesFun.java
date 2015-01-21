@@ -23,7 +23,7 @@ import java.util.Random;
 public class ParticlesFun extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Group root = new Group();
 
         double maxX = 1024, maxY = 728;
