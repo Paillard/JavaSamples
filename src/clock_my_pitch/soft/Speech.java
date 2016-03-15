@@ -3,9 +3,6 @@ package clock_my_pitch.soft;
 import java.time.Duration;
 import java.time.LocalTime;
 
-/**
- * Created by me on 3/11/16.
- */
 public abstract class Speech {
     // The time at which the speech began
     private LocalTime startTime;
@@ -19,8 +16,17 @@ public abstract class Speech {
     private Duration maxQuestionTime;
 
     protected Speech(Duration normalTime, Duration questionTime, Duration maxTime, Duration maxQuestionTime) {
-
+        this.normalTime = normalTime;
+        this.questionTime = questionTime;
+        this.maxTime = maxTime;
+        this.maxQuestionTime = maxQuestionTime;
     }
-    // startTime
-    // getElapsedTime
+
+    public void startSpeech() {
+        startTime = LocalTime.now();
+    }
+
+    public Duration getElapsedTime() {
+        return Duration.between(startTime, LocalTime.now());
+    }
 }
