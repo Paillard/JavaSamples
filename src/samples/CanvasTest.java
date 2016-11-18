@@ -29,7 +29,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sample;
+package samples;
 
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -52,7 +52,6 @@ public class CanvasTest extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-              //  setUserAgentStylesheet(STYLESHEET_MODENA);
         primaryStage.setTitle("Canvas Test");
         moveCanvas(0,0);
         drawDShape();

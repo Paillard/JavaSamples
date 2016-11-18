@@ -1,15 +1,18 @@
-package sample;
+package samples;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -18,19 +21,26 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
 
+/**
+ * This is three particles bounds by springs between them.
+ * Use the mouse to move the particles. Drop to see springs
+ * making fun tricks.
+ *
+ * Quit by pressing the escape key.
+ *
+ * @author Treiber Julien
+ */
 public class SpringField extends Application {
-    MouseGestures mg = new MouseGestures();
-    double damping = 0.995;
-    double speedo = 0.001;
+    private MouseGestures mg = new MouseGestures();
 
-    List<Particle> particles = new ArrayList<>();
-    List<Spring> springs = new ArrayList<>();
+    private List<Particle> particles = new ArrayList<>();
+    private List<Spring> springs = new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    Particle addParticle(Group parent, Paint p, double x, double y, double mass) {
+    private Particle addParticle(Group parent, Paint p, double x, double y, double mass) {
         Particle particle = new Particle(p, x, y, mass);
         mg.makeDraggable(particle);
         particles.add(particle);
@@ -38,14 +48,22 @@ public class SpringField extends Application {
         return particle;
     }
 
-    void addSpring(Group parent, Particle p1, Particle p2, double length, double strength) {
-        Spring spring = new Spring(parent, p1, p2, length, strength);
+    private void addSpring(Group parent, Particle p1, Particle p2) {
+        Spring spring = new Spring(parent, p1, p2, 100., 0.5);
         springs.add(spring);
+    }
+
+    private void addExitOnEsc(Stage primaryStage) {
+        // close windows on escape
+        primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
+            if (event.getCode().equals(KeyCode.ESCAPE)) Platform.exit();
+        });
     }
 
     @Override
     public void start(Stage primaryStage) {
 
+        addExitOnEsc(primaryStage);
         Group root = new Group();
 
         // create particles
@@ -55,16 +73,15 @@ public class SpringField extends Application {
 
 
         // add springs
-        addSpring(root, pRed, pBlue, 100, 0.5);
-        addSpring(root, pGreen, pBlue, 100, 0.5);
-        addSpring(root, pGreen, pRed, 100, 0.5);
+        addSpring(root, pRed, pBlue);
+        addSpring(root, pGreen, pBlue);
+        addSpring(root, pGreen, pRed);
 
         primaryStage.setScene(new Scene(root, 1024, 768));
         primaryStage.show();
 
         // animate
         startAnimation();
-
     }
 
     private void startAnimation() {
@@ -75,11 +92,9 @@ public class SpringField extends Application {
 
                 // move particles
                 for (Particle p : particles) {
-
                     if (!p.selected) {
                         p.move();
                     }
-
                 }
 
                 // apply springs
@@ -89,9 +104,7 @@ public class SpringField extends Application {
 
                 // move particles to new location
                 for (Particle p : particles) {
-
                     p.updateLocation();
-
                 }
 
             }
@@ -111,7 +124,7 @@ public class SpringField extends Application {
         double length; // length it tries to obtain
         double strength; //  how quickly it tries to reach that length
 
-        public Spring(Group parent, Particle p1, Particle p2, double length, double strength) {
+        Spring(Group parent, Particle p1, Particle p2, double length, double strength) {
             this.p1 = p1;
             this.p2 = p2;
             this.length = length;
@@ -127,7 +140,7 @@ public class SpringField extends Application {
             parent.getChildren().add(lineRedBlue);
         }
 
-        public void update() {
+        void update() {
             double stop = 1.0;
             double dx = p1.getCenterX() - p2.getCenterX();
             double dy = p1.getCenterY() - p2.getCenterY();
@@ -138,8 +151,9 @@ public class SpringField extends Application {
             if (force > 0) { force *= 4; stop = 0.9; }
 
             // System.out.println( dist + ", " + Math.toDegrees( theta) + ", " + force);
-            Point2D p1v = new Point2D(force*Math.cos(theta)*speedo/p1.mass, force*Math.sin(theta)*speedo/p1.mass);
-            Point2D p2v = new Point2D(-force*Math.cos(theta)*speedo/p2.mass, -force*Math.sin(theta)*speedo/p2.mass);
+            double speed = 0.001;
+            Point2D p1v = new Point2D(force*Math.cos(theta)* speed /p1.mass, force*Math.sin(theta)* speed /p1.mass);
+            Point2D p2v = new Point2D(-force*Math.cos(theta)* speed /p2.mass, -force*Math.sin(theta)* speed /p2.mass);
             p1.vector = p1.vector.add(p1v).multiply(stop);
             p2.vector = p2.vector.add(p2v).multiply(stop);
         }
@@ -159,7 +173,7 @@ public class SpringField extends Application {
 
         boolean selected = false;
 
-        public Particle(Paint color, double x, double y, double mass) {
+        Particle(Paint color, double x, double y, double mass) {
 
             super(x, y, 50);
 
@@ -174,15 +188,16 @@ public class SpringField extends Application {
 
         }
 
-        public void move() {
+        void move() {
 
             x += vector.getX();
             y += vector.getY();
+            double damping = 0.995;
             vector = vector.multiply(damping);
 
         }
 
-        public void updateLocation() {
+        void updateLocation() {
             setCenterX( x);
             setCenterY( y);
         }
@@ -196,7 +211,7 @@ public class SpringField extends Application {
         double orgSceneX, orgSceneY;
         double orgTranslateX, orgTranslateY;
 
-        public void makeDraggable( Node node) {
+        void makeDraggable(Node node) {
             node.setOnMousePressed(circleOnMousePressedEventHandler);
             node.setOnMouseDragged(circleOnMouseDraggedEventHandler);
             node.setOnMouseReleased(circleOnMouseReleasedEventHandler);

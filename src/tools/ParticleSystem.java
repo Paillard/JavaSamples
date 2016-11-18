@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by paill on 15/12/14.
+ * This is the system in which the particles
+ * are evolving. Submitted to its laws.
+ *
+ * @author Treiber Julien
  */
 public class ParticleSystem extends AnimationTimer {
 
@@ -35,8 +38,7 @@ public class ParticleSystem extends AnimationTimer {
     }
 
     public List<Particle> findCollisions(Particle encounter) {
-        List<Particle> tmp = particles.stream().filter(p -> p.hasCollision(encounter)).collect(Collectors.toList());
-        return tmp;
+        return particles.stream().filter(p -> p.hasCollision(encounter)).collect(Collectors.toList());
     }
 
     @Override
@@ -44,7 +46,7 @@ public class ParticleSystem extends AnimationTimer {
         particles.forEach(tools.Particle::move);
     }
 
-    static public void addParticle(@NotNull Particle p) {
+    static void addParticle(@NotNull Particle p) {
         particles.add(p);
     }
 
@@ -52,7 +54,7 @@ public class ParticleSystem extends AnimationTimer {
         return gravity;
     }
 
-    static public void remove(@NotNull Particle particle) {
+    static void remove(@NotNull Particle particle) {
         particles.remove(particle);
     }
 
@@ -61,16 +63,16 @@ public class ParticleSystem extends AnimationTimer {
         return particleSystem;
     }
 
-    static public ParticleSystem getInstance() {
+    static ParticleSystem getInstance() {
         if (particleSystem == null) new ParticleSystem(1024, 1024);
         return particleSystem;
     }
 
-    public double getMaxX() {
+    double getMaxX() {
         return this.maxX;
     }
 
-    public double getMaxY() {
+    double getMaxY() {
         return this.maxY;
     }
 }

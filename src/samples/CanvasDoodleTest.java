@@ -30,10 +30,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package sample;
+package samples;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -80,21 +79,12 @@ public class CanvasDoodleTest extends Application {
         final GraphicsContext gc = canvas.getGraphicsContext2D();
         
         // Clear away portions as the user drags the mouse
-        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-                
-                gc.clearRect(e.getX() - 2, e.getY() - 2, 5, 5);
-            }
-        });
+        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> gc.clearRect(e.getX() - 2, e.getY() - 2, 5, 5));
 
         // Fill the Canvas with a Blue rectnagle when the user double-clicks
-        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent t) {            
-                if (t.getClickCount() >1) {
-                    reset(canvas, Color.BLUE);
-                }  
+        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> {
+            if (t.getClickCount() >1) {
+                reset(canvas, Color.BLUE);
             }
         });
 

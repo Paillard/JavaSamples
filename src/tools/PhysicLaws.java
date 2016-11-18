@@ -1,7 +1,11 @@
 package tools;
 
 /**
- * Created by paill on 04/01/15.
+ * Not used for the moment, but the purpose is to implements
+ * physical laws to influence movements and bouncing of the
+ * particles in the particle's system.
+ *
+ * @author Treiber Julien
  */
 public class PhysicLaws {
     // Newton_first_law

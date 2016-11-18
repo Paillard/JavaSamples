@@ -10,7 +10,10 @@ import javafx.util.Duration;
 import java.util.List;
 
 /**
- * Created by paill on 15/12/14.
+ * A simple particle is a spherical Object
+ * moving into it's system until hurting something.
+ *
+ * @author Treiber Julien
  */
 public class Particle extends Body {
 
@@ -70,10 +73,10 @@ public class Particle extends Body {
         // particle can not leave the screen
         if ((pcx < 0) || (pcx > ps.getMaxX())) this.setInertia(-inertia.x, inertia.y);
         else if ((pcy < 0) || (pcy > ps.getMaxY())) this.setInertia(inertia.x, -inertia.y);
-        else { // particle collision one in another
+        //else { // particle collision one in another
+        // TODO
 
-
-           // tests sur un mouvement helicoidoale autour de la sourie des particules
+           // tests sur un mouvement helicoidoale autour de la souris des particules
           /* if (ParticleSystem.getMouseCoordinates() != null) {
                 double xOffset = Math.abs((ParticleSystem.getMouseCoordinates().x - this.getCenterX()));
                 double yOffset = Math.abs((ParticleSystem.getMouseCoordinates().y - this.getCenterY()));
@@ -129,7 +132,7 @@ public class Particle extends Body {
                     cInertia.set(n, m);
                 }*/
            // }
-        }
+        //}
     }
 
     @Override

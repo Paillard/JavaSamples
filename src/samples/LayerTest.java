@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2012, 2014 Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
@@ -31,11 +30,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package sample;
+package samples;
 
 import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -44,8 +42,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.control.ChoiceBox;
 import javafx.collections.FXCollections;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
@@ -76,35 +72,22 @@ public class LayerTest extends Application {
     
     private void handleLayers(){
         // Handler for Layer 1
-        layer1.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {          
-                gc1.fillOval(e.getX(),e.getY(),20,20);
-            }
-        });
+        layer1.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> gc1.fillOval(e.getX(),e.getY(),20,20));
         
          // Handler for Layer 2
-        layer2.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-                gc2.fillOval(e.getX(),e.getY(),20,20);
-            }
-        });
+        layer2.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> gc2.fillOval(e.getX(),e.getY(),20,20));
     }
     
     private void createChoiceBox(){
         cb = new ChoiceBox();
         cb.setItems(FXCollections.observableArrayList("Layer 1 is GREEN", "Layer 2 is BLUE"));
-        cb.getSelectionModel().selectedItemProperty().addListener(new ChangeListener(){
-            @Override
-            public void changed(ObservableValue o, Object o1, Object o2){
-                if(o2.toString().equals("Layer 1 is GREEN")){
-                    layer1.toFront();
-                }else if(o2.toString().equals("Layer 2 is BLUE")){
-                    layer2.toFront();
-                }
+        cb.getSelectionModel().selectedItemProperty().addListener((o, o1, o2) -> {
+            if(o2.toString().equals("Layer 1 is GREEN")){
+                layer1.toFront();
+            }else if(o2.toString().equals("Layer 2 is BLUE")){
+                layer2.toFront();
             }
-        });  
+        });
         cb.setValue("Layer 1 is GREEN");
     }
     

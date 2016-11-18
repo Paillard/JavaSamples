@@ -1,4 +1,2 @@
-out/*
-.idea/*
-/processing_fxml.iml
-*.png
+out/
+.idea/
